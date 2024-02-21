@@ -1,11 +1,14 @@
 ###################################################################################
 ######## crispr data model run ##############################################3
-sl2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sl-pairwise-new-entrez-final")
-sv2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sv-pairwise-new-entrez-final")
+setwd("/home/user/MAGICAL/Validation-CRISPR")
+#sl2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sl-pairwise-new-entrez-final")
+sl2 = read.csv("crispr-sl-pairwise-new-entrez-final")
+#sv2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sv-pairwise-new-entrez-final")
+sv2 = read.csv("crispr-sv-pairwise-new-entrez-final")
 sl2$gi = "SL"
 sv2$gi = "SV"
-crispr.sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sl-pairwise-new-entrez-final")
-crispr.sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sv-pairwise-new-entrez-final")
+crispr.sl = read.csv("crispr-sl-pairwise-new-entrez-final")
+crispr.sv = read.csv("crispr-sv-pairwise-new-entrez-final")
 crispr.sl$gi =  "SL"
 crispr.sv$gi = "SV"
 not2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not1.pairwiseprop.csv")
@@ -49,8 +52,8 @@ database$max = pmax(database$NOT, database$SL, database$SV)
 database = database[,c(1,2,10,14)]
 print(head(database))
 ######for sv
-sl2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sl-pairwise-new-entrez-final")
-sv2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sv-pairwise-new-entrez-final")
+sl2 = read.csv("crispr-sl-pairwise-new-entrez-final")
+sv2 = read.csv("crispr-sv-pairwise-new-entrez-final")
 sl2$gi = "SL"
 sv2$gi = "SV"
 data = unique(rbind(sl2,sv2))
