@@ -1,17 +1,25 @@
 ###MAGICAL-CORE
-sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
+setwd("/home/user/MAGICAL/MAGICAL-CORE")
+#sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
+sl = read.csv("biogrid-sl-pairwise-new-netprop")
 sl$gi = "SL"
-sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
+#sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
+sv = read.csv("biogrid-sv-pairwise-new-netprop")
 sv$gi = "SV"
-sl2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/cgidb-sl-pairwise-new-netprop")
+#sl2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/cgidb-sl-pairwise-new-netprop")
+sl2 = read.csv("cgidb-sl-pairwise-new-netprop")
 sl2$gi = "SL"
-sv2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/cgidb-sv-pairwise-new-netprop")
+#sv2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/cgidb-sv-pairwise-new-netprop")
+sv2 = read.csv("cgidb-sv-pairwise-new-netprop")
 sv2$gi = "SV"
-sl3 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/sldb-sl-pairwise-new-netprop")
+#sl3 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/sldb-sl-pairwise-new-netprop")
+sl3 = read.csv("sldb-sl-pairwise-new-netprop")
 sl3$gi = "SL"
-sv3 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/sldb-sv-pairwise-new-netprop")
+#sv3 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/sldb-sv-pairwise-new-netprop")
+sv3 = read.csv("sldb-sv-pairwise-new-netprop")
 sv3$gi = "SV"
-not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
+#not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
+not = read.csv("not0.pairwiseprop.csv")
 not$gi = "NOT"
 traindata = unique(rbind(sl,sl2,sl3,sv,sv2,sv3,not))
 table(traindata$gi)
@@ -21,9 +29,7 @@ traindatabal$gene1 = as.integer(traindatabal$gene1)
 traindatabal$gene2 = as.integer(traindatabal$gene2)
 write.csv(traindatabal, "magical-core-data.csv", row.names = F, quote = F)
 #training = traindatabal
-traindatabal = read.csv("/home/nikola/biogrid-new-ppi/magical-imp-prop-new-entrez/figures/magical-core-data.csv")
-#####OR####
-traindatabal = read.csv("/home/nikola/biogrid-new-ppi/magical-imp-prop-new-entrez/magical-bal-data-with-geneids.csv")
+traindatabal = read.csv("magical-core-data.csv")
 traindata$gi = as.factor(traindata$gi)
 traindatabal$gene1 = as.integer(traindatabal$gene1)
 traindatabal$gene2 = as.integer(traindatabal$gene2)
