@@ -1,16 +1,21 @@
 #################################DEPMAP data#######################################
 ###Validating pairs from DepMap and CRISPR data
-depmap = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/depmap.pairwiseprop-newentrez.csv")
+setwd("/home/user/MAGICAL/Validation-DepMap")
+#depmap = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/depmap.pairwiseprop-newentrez.csv")
+depmap = read.csv("depmap.pairwiseprop-newentrez.csv")
 depmap$gi = "SL"
-svdr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/svdr.pairwiseprop-newentrez.csv")
+#svdr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/svdr.pairwiseprop-newentrez.csv")
+svdr = read.csv("svdr.pairwiseprop-newentrez.csv")
 svdr$gi = "SV"
-dusr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/dusr.pairwiseprop-newentrez.csv")
-ddsr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/ddsr.pairwiseprop-newentrez.csv")
+#dusr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/dusr.pairwiseprop-newentrez.csv")
+dusr = read.csv("dusr.pairwiseprop-newentrez.csv")
+#ddsr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/ddsr.pairwiseprop-newentrez.csv")
+ddsr = read.csv("ddsr.pairwiseprop-newentrez.csv")
 sr = unique(rbind(dusr,ddsr))
 sr$gi = "SV"
 svtot = data.frame(unique(rbind(svdr,dusr,ddsr)))
 svtot$gi = "SV"
-not2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not1.pairwiseprop.csv")
+not2 = read.csv("not1.pairwiseprop.csv")
 not2$gi = "NOT"
 test.depmap = data.frame(unique(rbind(depmap,svtot, not2)))
 test.depmap = data.frame(unique(rbind(depmap,svdr, not2)))
