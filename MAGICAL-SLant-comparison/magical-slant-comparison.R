@@ -1,16 +1,16 @@
 #slant on bal data
 control <- trainControl(method="cv", summaryFunction=twoClassSummary, classProbs=T,
                         savePredictions = T)
-sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
-#sl = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sl-pairwise-new-netprop")
+#sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
+sl = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sl-pairwise-new-netprop")
 sl$gi = "SL"
 sl = sl[1:411,]
-sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
-#sv = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sv-pairwise-new-netprop")
+#sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
+sv = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sv-pairwise-new-netprop")
 sv$gi = "NOT"
 sv = sv[1:205,]
-not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
-#not = read.csv("/home/user/MAGICAL/MAGICAL-CORE/not0.pairwiseprop.csv")
+#not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
+not = read.csv("/home/user/MAGICAL/MAGICAL-CORE/not0.pairwiseprop.csv")
 not$gi = "NOT"
 not = not[1:206,]
 traindata = unique(rbind(sl,sv,not))
@@ -39,14 +39,14 @@ test.slant$gi = as.factor(test.slant$gi)
 result.slant <- pROC::roc(as.numeric(prediction.slant), 
                            as.numeric(test.slant$gi))
 ###magical on bal data
-sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
-#sl = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sl-pairwise-new-netprop")
+#sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
+sl = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sl-pairwise-new-netprop")
 sl$gi = "SL"
-sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
-#sv = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sv-pairwise-new-netprop")
+#sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
+sv = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sv-pairwise-new-netprop")
 sv$gi = "SV"
-not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
-#not = read.csv("/home/user/MAGICAL/MAGICAL-CORE/not0.pairwiseprop.csv")
+#not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
+not = read.csv("/home/user/MAGICAL/MAGICAL-CORE/not0.pairwiseprop.csv")
 not$gi = "NOT"
 traindata = unique(rbind(sl,sv,not))
 table(traindata$gi)
