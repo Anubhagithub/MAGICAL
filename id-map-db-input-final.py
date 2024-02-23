@@ -1,8 +1,9 @@
 ###map entrez ids to gene names database inp
 ##importing library
 import pandas as pd
-merge.gene = pd.read_csv("/home/mito/srf2023/all-proteins/db-scores/magical-score/mapped-entrez-id-having-genename.csv")
+#merge.gene = pd.read_csv("/home/mito/srf2023/all-proteins/db-scores/magical-score/mapped-entrez-id-having-genename.csv")
 gene_merge= pd.read_csv("/home/mito/srf2023/all-proteins/db-scores/magical-score/mapped-entrez-id-having-genename.csv")
+data1 = gene_merge
 pairs_db = pd.read_csv("/home/mito/srf2023/all-proteins/db-scores/magical-score/magical-db-input-except-not-final2.csv")
 print(pairs_db.shape)
 print(pairs_db.head())
