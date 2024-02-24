@@ -7,4 +7,4 @@ Availability: https://github.com/Anubhagithub/MAGICAL/
 
 #Installation
 
-Download the git repository, change the repository, execute the codes. 
+The git repository to be downloaded, change of the repository, execution of codes. 
