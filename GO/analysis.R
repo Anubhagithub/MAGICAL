@@ -25,26 +25,26 @@ sl.bio = sl.biogrid
 colnames(sl.bio)[1] = "genename"
 head(sl.bio)
 library(plyr)
-tot_g1 = join(sl.bio,go.genename) ##4478
+tot_g1 = join(sl.bio,go.genename) 
 anyNA(tot_g1)
 tot.g1 = tot_g1
 sl.bio2 = sl.biogrid
 colnames(sl.bio2)[2] = "genename"
 head(sl.bio2)
-tot_g2 = join(sl.bio2,go.genename) ##4478
+tot_g2 = join(sl.bio2,go.genename) 
 anyNA(tot_g2)
 tot.g2 = tot_g2
-tot = cbind(tot.g1, tot.g2) ##4478
-totcp = tot[,c(1,3,5,6)] ##4478
-totcp3 = na.omit(totcp) ##3646
+tot = cbind(tot.g1, tot.g2) 
+totcp = tot[,c(1,3,5,6)] 
+totcp3 = na.omit(totcp) 
 #intr = data.frame(intersect(totcp3$id, totcp3$id.1))
 file = totcp3
 file$intr <- Map(intersect, strsplit(file$id,", "), strsplit(file$id.1, ", "))
 file$union <- Map(union, strsplit(file$id,", "), strsplit(file$id.1, ", "))
 file2 = file
-file2$intr = as.character(file2$intr) #3901
+file2$intr = as.character(file2$intr) 
 file2$union = as.character(file2$union) 
-file3 = file2[which(file2$intr != "character(0)"),] #3183
+file3 = file2[which(file2$intr != "character(0)"),] 
 #file3 = file2[which(file2$union != "character(0)"),]
 for(i in 1:nrow(file3)){
   x = unlist(strsplit(file3$id,", ")[i])
@@ -68,25 +68,25 @@ sv.bio = sv.biogrid
 colnames(sv.bio)[1] = "genename"
 #head(sv.bio)
 library(plyr)
-tot_g1 = join(sv.bio,go.genename) ##4478
+tot_g1 = join(sv.bio,go.genename) 
 anyNA(tot_g1)
 tot.g1 = tot_g1
 sv.bio2 = sv.biogrid
 colnames(sv.bio2)[2] = "genename"
 head(sv.bio2)
-tot_g2 = join(sv.bio2,go.genename) ##4478
+tot_g2 = join(sv.bio2,go.genename) 
 anyNA(tot_g2)
 tot.g2 = tot_g2
-tot = cbind(tot.g1, tot.g2) ##4478
-totcp = tot[,c(1,3,5,6)] ##4478
-totcp3 = na.omit(totcp) ##3646
+tot = cbind(tot.g1, tot.g2) 
+totcp = tot[,c(1,3,5,6)] 
+totcp3 = na.omit(totcp) 
 file = totcp3
 file$intr <- Map(intersect, strsplit(file$id,", "), strsplit(file$id.1, ", "))
 file$union <- Map(union, strsplit(file$id,", "), strsplit(file$id.1, ", "))
 file2 = file
-file2$intr = as.character(file2$intr) #3901
+file2$intr = as.character(file2$intr) 
 file2$union = as.character(file2$union) 
-file3 = file2[which(file2$intr != "character(0)"),] #3183
+file3 = file2[which(file2$intr != "character(0)"),] 
 ##identify number of GO terms for nboth the gene pair and average them
 for(i in 1:nrow(file3)){
   x = unlist(strsplit(file3$id,", ")[i])
@@ -111,25 +111,25 @@ not.bio = not2
 colnames(not.bio)[1] = "genename"
 #head(sv.bio)
 library(plyr)
-tot_g1 = join(not.bio,go.genename) ##4478
+tot_g1 = join(not.bio,go.genename) 
 anyNA(tot_g1)
 tot.g1 = tot_g1
 not.bio2 = not2
 colnames(not.bio2)[2] = "genename"
 head(sv.bio2)
-tot_g2 = join(not.bio2,go.genename) ##4478
+tot_g2 = join(not.bio2,go.genename) 
 anyNA(tot_g2)
 tot.g2 = tot_g2
-tot = cbind(tot.g1, tot.g2) ##4478
-totcp = tot[,c(1,3,5,6)] ##4478
-totcp3 = na.omit(totcp) ##3646
+tot = cbind(tot.g1, tot.g2) 
+totcp = tot[,c(1,3,5,6)] 
+totcp3 = na.omit(totcp) 
 file = totcp3
 file$intr <- Map(intersect, strsplit(file$id,", "), strsplit(file$id.1, ", "))
 file$union <- Map(union, strsplit(file$id,", "), strsplit(file$id.1, ", "))
 file2 = file
-file2$intr = as.character(file2$intr) #3901
+file2$intr = as.character(file2$intr) 
 file2$union = as.character(file2$union) 
-file3 = file2[which(file2$intr != "character(0)"),] #3183
+file3 = file2[which(file2$intr != "character(0)"),] 
 ##identify number of GO terms for nboth the gene pair and average them
 for(i in 1:nrow(file3)){
   x = unlist(strsplit(file3$id,", ")[i])
