@@ -7,7 +7,8 @@ not1 = read.csv("/home/user/MAGICAL/GO/not-1st-genename-intr.csv")
 not1 = not1[,c(1,2)]
 not2 = unique(rbind(not0, not1))
 onto.bp2 = read.csv("/home/user/MAGICAL/GO/ontology-bp.csv")
-go.gn = read.csv("/home/user/MAGICAL/GO/foo", sep = "", header = F)
+#go.gn = read.csv("/home/user/MAGICAL/GO/foo", sep = "", header = F)
+go.gn = read.csv("/home/user/MAGICAL/GO/gene-with-GO.csv", sep = "", header = F)
 go.gn2 = go.gn[,c(2,3)]
 colnames(go.gn2)[1] = "genename"
 colnames(go.gn2)[2] = "id"
