@@ -1,6 +1,6 @@
 ###Read the input file
 ###calculating the network properties
-ppi = read.csv("/home/nikola/biogrid-new-ppi/biogrid-entrez-pairs", sep = "\t", header = F) #377641
+ppi = read.csv("/home/MAGICAL/data/biogrid-entrez-pairs", sep = "\t", header = F) #377641
 ppiuni = unique(ppi) #159541
 ppiuni2 = ppiuni[!duplicated(t(apply(ppiuni, 1, sort))),] #107023
 ppiuni3 <- ppiuni2[ppiuni2$V1 != ppiuni2$V2,] #104128
