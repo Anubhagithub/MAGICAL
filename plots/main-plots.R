@@ -57,6 +57,7 @@ ggplot(df3, aes(fill=Rank, y=points, x=team)) + theme_bw() + theme_classic() +
     colours = gray.colors(20,start=0,end=0.9, rev = FALSE), 
   )
 dev.off()
+
 ###figure3
 sl = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sl-pairwise-new-netprop")
 sl$gi = "SL"
@@ -203,6 +204,7 @@ train_nb %>%
         axis.text.x = element_text(size = 12),
         legend.title = element_text(size=20),legend.text = element_text(size=15))
 dev.off()
+
 ###figure4
 library(randomForest)
 sl = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sl-pairwise-new-netprop")
@@ -429,6 +431,7 @@ legend("bottomright",
        col = c("#980043","#008B8B","#969696"),
        lwd = 5, cex = 0.6)
 dev.off()
+
 ###figure 5a,b
 library(caret)
 library(randomForest)
@@ -545,33 +548,42 @@ legend("bottomright",
 dev.off()
 
 ###figure5c depmap and crispr data
+magical = readRDS("magical.rds")
 depmap = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/depmap.pairwiseprop-newentrez.csv")
 depmap$gi = "SL"
 svdr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/svdr.pairwiseprop-newentrez.csv")
-svdr$gi = "SV"
 dusr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/dusr.pairwiseprop-newentrez.csv")
 ddsr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/ddsr.pairwiseprop-newentrez.csv")
-sr = unique(rbind(dusr,ddsr))
-sr$gi = "SV"
 svtot = data.frame(unique(rbind(svdr,dusr,ddsr)))
 svtot$gi = "SV"
 not2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not1.pairwiseprop.csv")
 not2$gi = "NOT"
 test.depmap = data.frame(unique(rbind(depmap,svtot, not2)))
-test.depmap = data.frame(unique(rbind(depmap,svdr, not2)))
-test.depmap = data.frame(unique(rbind(depmap,sr,not2)))
-test.depmap = data.frame(unique(rbind(depmap,svdr,sr,not2)))
 test.depmap = test.depmap[,-c(1,2)]
 test.depmap$gi = as.factor(test.depmap$gi)
 test.depmap.bal = DMwR::SMOTE(gi ~ ., test.depmap, perc.under = 200)
 testing_set = test.depmap.bal[,c(2,10,15,18,20,21)]
-forest$finalModel
-prediction = predict(forest, newdata = testing_set[-6])
+prediction = predict(magical, newdata = testing_set[-6])
 #the prediction value is taken where magical.model was built
 library(pROC)
 testing_set$gi = as.factor(testing_set$gi)
 result.depmap <- pROC::multiclass.roc(as.numeric(prediction), 
                                       as.numeric(testing_set$gi))
+#####crispr data
+crispr.sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sl-pairwise-new-entrez")
+crispr.sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sv-pairwise-new-entrez")
+crispr.sl$gi =  "SL"
+crispr.sv$gi = "SV"
+not2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not1.pairwiseprop.csv")
+not2$gi = "NOT"
+crispr.tot2 = unique(rbind(crispr.sl,crispr.sv,not2))
+crispr.tot2 = crispr.tot2[,-c(1,2)]
+testing.set = crispr.tot2[,c(2,10,15,18,20,21)]
+prediction2 = predict(magical, newdata = testing.set[-6])
+testing.set$gi = as.factor(testing.set$gi)
+result.crispr <- pROC::multiclass.roc(as.numeric(prediction2), 
+                                      as.numeric(testing.set$gi))
+
 tiff("fig5c.tiff",width = 1600, height = 1400, res = 300)
 par(mar=c(0.5,2.5,0.5,0.5),cex.axis=1, font.axis=1,cex.lab=1.1, font.lab=1.5)
 plot.roc(result.depmap$rocs[[2]], 
@@ -588,24 +600,6 @@ legend("bottomright",
        cex = 0.6,
        lwd = c(2,2))
 dev.off()
-#####crispr data
-crispr.sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sl-pairwise-new-entrez")
-crispr.sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sv-pairwise-new-entrez")
-crispr.sl$gi =  "SL"
-crispr.sv$gi = "SV"
-not2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not1.pairwiseprop.csv")
-not2$gi = "NOT"
-crispr.tot2 = unique(rbind(crispr.sl,crispr.sv,not2))
-crispr.tot2 = crispr.tot2[,-c(1,2)]
-testing_set = crispr.tot2[,c(2,10,15,18,20,21)]
-prediction = predict(forest, newdata = testing_set[-6])
-testing_set$gi = as.factor(testing_set$gi)
-result.crispr <- pROC::multiclass.roc(as.numeric(prediction), 
-                                      as.numeric(testing_set$gi))
-plot.roc(result.crispr$rocs[[2]],add=T, col = '#c994c7', ##F8766D 3lwd = 5, print.auc.x=0.8,print.auc.y=0.33,
-         print.auc=T,cex.lab = 2, cex.axis =2,
-         legacy.axes = T, lwd = 5, print.auc.x=1.0,print.auc.y=0.35,
-         print.auc.adj = c(0,5),scales=list(x=list(font=2,cex=5)))
 
 Figure 6b,c GO terms
 data3 = read.csv("/home/nikola/review_magical/go-analysis/GO-bp-input-for-plots.csv")
