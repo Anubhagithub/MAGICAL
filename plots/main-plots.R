@@ -247,7 +247,7 @@ cnf_mat = table(testing$gi, testing$predict_gi)
 cnf_mat
 accuracy = sum(diag(cnf_mat)/sum(cnf_mat))
 varImpPlot(magical, sort = T, n.var = 5, main = "Discriminatory variables magical-exp")
-#saveRDS(magical, "magical.rds")
+saveRDS(magical, "magical.rds")
 #####magical-exp
 library(dplyr)
 stack1 = data.frame (class  = c("SL", "SL", "SL","SV","SV","SV","NOT","NOT","NOT"),
