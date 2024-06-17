@@ -572,7 +572,7 @@ library(pROC)
 testing_set$gi = as.factor(testing_set$gi)
 result.depmap <- pROC::multiclass.roc(as.numeric(prediction), 
                                       as.numeric(testing_set$gi))
-tiff("figure5b.tiff",width = 1600, height = 1400, res = 300)
+tiff("fig5c.tiff",width = 1600, height = 1400, res = 300)
 par(mar=c(0.5,2.5,0.5,0.5),cex.axis=1, font.axis=1,cex.lab=1.1, font.lab=1.5)
 plot.roc(result.depmap$rocs[[2]], 
          print.auc=T, col = 'black', lwd = 2,
