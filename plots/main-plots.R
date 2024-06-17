@@ -430,18 +430,68 @@ legend("bottomright",
        lwd = 5, cex = 0.6)
 dev.off()
 ###figure 5a,b
+library(caret)
+library(randomForest)
+control <- trainControl(method="cv", summaryFunction=twoClassSummary, classProbs=T,
+                        savePredictions = T)
+sl = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sl-pairwise-new-netprop")
+sl$gi = "SL"
+sv = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sv-pairwise-new-netprop")
+sv$gi = "NOT"
+not = read.csv("/home/user/MAGICAL/MAGICAL-core/not0.pairwiseprop.csv")
+not$gi = "NOT"
+traindata = unique(rbind(sl,sv,not))
+table(traindata$gi)
+traindata$gi = as.factor(traindata$gi)
+traindata = na.omit(traindata)
+traindatabal = traindata
+table(traindatabal$gi)
+traindatabalcp = traindata[,c(1,2,6,21,22,23)]
+ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.70, 0.30))
+tr2 = traindatabalcp[ind == 1,]
+te2 = traindatabalcp[ind == 2,]
+slant.unbal.train = tr2
+slant.unbal.test = te2
+slant.unbal <- train(gi~., data=select(slant.unbal.train, -gene1, -gene2), method='ranger', trControl=control, tuneLength=5, metric="ROC", preProc=c("center", "scale"))
+prediction = predict(slant.unbal, newdata = slant.unbal.test[,-c(1,2)])
+predict_gi = predict(slant.unbal, newdata = slant.unbal.test[,-c(1,2)])
+slant.unbal.test$predict_gi = predict_gi
+cnf_mat = table(slant.unbal.test$gi, slant.unbal.test$predict_gi)
+cnf_mat
+accuracy.slant.unbal = sum(diag(cnf_mat)/sum(cnf_mat))
+###slant bal data read
+slantbal = read.csv("/home/user/MAGICAL/MAGICAL-SLant-comparison/slant-data.csv")
+table(slantbal$gi)
+traindatabalcp = slantbal
+table(traindatabalcp$gi)
+ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.70, 0.30))
+tr2 = traindatabalcp[ind == 1,]
+te2 = traindatabalcp[ind == 2,]
+library(dplyr)
+slant.bal.train = tr2
+slant.bal.test = te2
+slant.bal <- train(gi~., data=select(slant.bal.train, -gene1, -gene2), method='ranger', trControl=control, tuneLength=5, metric="ROC", preProc=c("center", "scale"))
+prediction = predict(slant.bal, newdata = slant.bal.test[,-c(1,2)])
+predict_gi = predict(slant.bal, newdata = slant.bal.test[,-c(1,2)])
+slant.bal.test$predict_gi = predict_gi
+cnf_mat = table(slant.bal.test$gi, slant.bal.test$predict_gi)
+cnf_mat
+accuracy.slant.bal = sum(diag(cnf_mat)/sum(cnf_mat))
+#########unbal slant
 prediction.slant2 = predict(slant.unbal, newdata = slant.unbal.test[,-c(1,2,6,7)])
 slant.unbal.test$gi = as.factor(slant.unbal.test$gi)
 result.slant2 <- pROC::multiclass.roc(as.numeric(prediction.slant2), 
                                       as.numeric(slant.unbal.test$gi))
 #########unbal magical
-testing2 = testing[,-c(7)]
+#testing2 = testing[,-c(7)]
+testing2 = testing.unbal.mag[,-c(7)]
 prediction.magical2 = predict(magical.unbal.bio, newdata = testing2[,-c(6)])
 testing2$gi = as.factor(testing2$gi)
 result.magical2 <- pROC::multiclass.roc(as.numeric(prediction.magical2), 
                                         as.numeric(testing2$gi))
 ###plot
-tiff("slant-magical-unbal-final.tiff",width = 1600, height = 1400, res = 300)
+#tiff("slant-magical-unbal-final.tiff",width = 1600, height = 1400, res = 300)
+tiff("fig5a.tiff",width = 1600, height = 1400, res = 300)
 par(mar=c(0.5,2.5,0.5,0.5),cex.axis=1, font.axis=1,cex.lab=1.1, font.lab=1.5)
 plot.roc(result.slant2$rocs[[1]], 
          print.auc=T, col = "black", lwd = 3, #gray color #969696
@@ -457,29 +507,27 @@ legend("bottomright",
        cex = 0.6,
        lwd = c(5,3))
 dev.off()
-#the prediction value is taken where magical.model was built
-library(pROC)
-testing_set$gi = as.factor(testing_set$gi)
-result <- pROC::multiclass.roc(as.numeric(prediction), 
-                               as.numeric(testing_set$gi))
 ###slant bal
-te3 = te2[,-c(1,2,7)]
-prediction.slant3 = predict(slant.bal, newdata = te3[,-c(4)])
-te3$gi = as.factor(te3$gi)
-result.slant3 <- pROC::multiclass.roc(as.numeric(prediction.slant3), 
-                                      as.numeric(te3$gi))
+#te3 = te2[,-c(1,2,7)]
+# te3 = slant.bal.test[,-c(1,2,7)]
+# prediction.slant3 = predict(slant.bal, newdata = te3[,-c(4)])
+# te3$gi = as.factor(te3$gi)
+# result.slant3 <- pROC::multiclass.roc(as.numeric(prediction.slant3), 
+#                                       as.numeric(te3$gi))
 te3 = slant.bal.test[,-c(1,2,7)]
 prediction.slant3 = predict(slant.bal, newdata = te3[,-c(4)])
 te3$gi = as.factor(te3$gi)
 result.slant3 <- pROC::multiclass.roc(as.numeric(prediction.slant3), 
                                       as.numeric(te3$gi))
 ###magical bal
-testing3 = testing[,-c(7)]
+#testing3 = testing[,-c(7)]
+testing3 = testing.bal.mag[,-c(7)]
 prediction.magical3 = predict(magical.bio, newdata = testing3[,-c(6)])
 testing3$gi = as.factor(testing3$gi)
 result.magical3 <- pROC::multiclass.roc(as.numeric(prediction.magical3), 
                                       as.numeric(testing3$gi))
-tiff("slant-magical-bal-final.tiff",width = 1600, height = 1400, res = 300)
+#tiff("slant-magical-bal-final.tiff",width = 1600, height = 1400, res = 300)
+tiff("fig5b.tiff",width = 1600, height = 1400, res = 300)
 par(mar=c(0.5,2.5,0.5,0.5),cex.axis=1, font.axis=1,cex.lab=1.1, font.lab=1.5)
 plot.roc(result.slant3$rocs[[1]], 
          print.auc=T, col = "black", lwd = 3,
@@ -495,6 +543,7 @@ legend("bottomright",
        cex = 0.6,
        lwd = c(5,3))
 dev.off()
+
 ###figure5c depmap and crispr data
 depmap = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/depmap.pairwiseprop-newentrez.csv")
 depmap$gi = "SL"
