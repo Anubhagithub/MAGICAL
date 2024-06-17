@@ -606,3 +606,40 @@ plot.roc(result.crispr$rocs[[2]],add=T, col = '#c994c7', ##F8766D 3lwd = 5, prin
          print.auc=T,cex.lab = 2, cex.axis =2,
          legacy.axes = T, lwd = 5, print.auc.x=1.0,print.auc.y=0.35,
          print.auc.adj = c(0,5),scales=list(x=list(font=2,cex=5)))
+
+Figure 6b,c GO terms
+data3 = read.csv("/home/nikola/review_magical/go-analysis/GO-bp-input-for-plots.csv")
+a = data3[which(data3$gi == "SL"),]
+a.avggo = data.frame(a[,c(1)])
+colnames(a.avggo)[1] = "SL"
+b = data3[which(data3$gi == "SV"),]
+b.avggo = data.frame(b[,c(1)])
+colnames(b.avggo)[1] = "SV"
+b.avggo[572:794,] = ""
+c = data3[which(data3$gi == "NOT"),]
+c.avggo = data.frame(c[,c(1)])
+colnames(c.avggo)[1] = "NOT"
+c.avggo[158:794,] = ""
+new = cbind(a.avggo,b.avggo,c.avggo)
+newcp = new
+newcp$SV = as.numeric(newcp$SV)
+newcp$NOT = as.numeric(newcp$NOT)
+gg <- melt(newcp)
+gg2 = na.omit(gg)
+tiff("6b.tiff",width = 1200, height = 1000, res = 300)
+par(mar=c(0.5,2.5,0.5,0.5),cex.axis=1.4, font.axis=4,cex.lab=1.4, font.lab=4)
+ggplot(gg2, aes(x=value, fill=variable,alpha = 0.4)) + xlab("Average GO terms")+
+  geom_histogram(binwidth=10)+scale_fill_manual(values = c("#980043", "#008B8B","#969696"))+
+  facet_grid(variable~.)+theme_classic() + theme(legend.position="none")
+dev.off()
+data3$gi <- factor(data3$gi, levels = c("NOT", "SV", "SL"))
+tiff("fig6c.tiff",width = 1200, height = 1000, res = 300)
+par(mar=c(0.5,2.5,0.5,0.5),cex.axis=1.4, font.axis=4,cex.lab=1.4, font.lab=4)
+#levels(data3$gi) <- c("SL", "SV", "NOT") #not needed
+ggplot(data3, aes(x=gi,y=jc, fill = gi, alpha = 0.4)) +
+  xlab("")+ ylab("Jacaard Index")+
+  scale_y_continuous(limits=c(0,0.5))+
+  geom_boxplot(outlier.shape = NA) +theme_classic() + theme(legend.position="none")+
+  scale_fill_manual(values=c("#969696","#008B8B","#980043"))+
+  coord_flip()
+dev.off()
