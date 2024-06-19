@@ -59,6 +59,7 @@ ggplot(df3, aes(fill=Rank, y=points, x=team)) + theme_bw() + theme_classic() +
 dev.off()
 
 ###figure3
+library(DMwR)
 sl = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sl-pairwise-new-netprop")
 sl$gi = "SL"
 sv = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sv-pairwise-new-netprop")
@@ -207,6 +208,7 @@ dev.off()
 
 ###figure4
 library(randomForest)
+library(DMwR)
 sl = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sl-pairwise-new-netprop")
 sl$gi = "SL"
 sv = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sv-pairwise-new-netprop")
@@ -435,6 +437,7 @@ dev.off()
 ###figure 5a,b
 library(caret)
 library(randomForest)
+library(DMwR)
 control <- trainControl(method="cv", summaryFunction=twoClassSummary, classProbs=T,
                         savePredictions = T)
 sl = read.csv("/home/user/MAGICAL/MAGICAL-core/biogrid-sl-pairwise-new-netprop")
@@ -480,6 +483,48 @@ slant.bal.test$predict_gi = predict_gi
 cnf_mat = table(slant.bal.test$gi, slant.bal.test$predict_gi)
 cnf_mat
 accuracy.slant.bal = sum(diag(cnf_mat)/sum(cnf_mat))
+####magical unbalanced model building biogrid data
+sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
+sl$gi = "SL"
+sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
+sv$gi = "SV"
+not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
+not$gi = "NOT"
+traindata = unique(rbind(sl,sv,not))
+traindata$gi = as.factor(traindata$gi)
+traindata = traindata[,c(4,12,17,20,22,23)]
+table(traindata$gi)
+head(traindata)
+index = sample(2, nrow(traindata), replace = TRUE, prob = c(0.70, 0.30))
+train = traindata[index == 1,]
+test = traindata[index == 2,]
+training = train
+testing = test
+magical.unbal.bio = randomForest(gi ~ . , data = training, importance = T)
+prediction = predict(magical.unbal.bio, newdata = testing[-6])
+predict_gi = predict(magical.unbal.bio, newdata = testing)
+testing$predict_gi = predict_gi
+cnf_mat = table(testing$gi, testing$predict_gi)
+cnf_mat
+accuracy = sum(diag(cnf_mat)/sum(cnf_mat)) 
+testing.unbal.mag = testing
+#######magical balanced model on biogrid data
+traindatabal = traindata[,c(4,12,17,20,22,23)]
+traindatabal = DMwR::SMOTE(gi ~ ., traindatabal, perc.under = 200)
+table(traindatabal$gi)
+index = sample(2, nrow(traindatabal), replace = TRUE, prob = c(0.70, 0.30))
+train = traindatabal[index == 1,]
+test = traindatabal[index == 2,]
+training = train
+testing = test
+magical.bio = randomForest(gi ~ . , data = training, importance = T)
+prediction = predict(magical.bio, newdata = testing[-6])
+predict_gi = predict(magical.bio, newdata = testing)
+testing$predict_gi = predict_gi
+cnf_mat = table(testing$gi, testing$predict_gi)
+cnf_mat
+accuracy = sum(diag(cnf_mat)/sum(cnf_mat)) 
+testing.bal.mag = testing
 #########unbal slant
 prediction.slant2 = predict(slant.unbal, newdata = slant.unbal.test[,-c(1,2,6,7)])
 slant.unbal.test$gi = as.factor(slant.unbal.test$gi)
@@ -548,6 +593,7 @@ legend("bottomright",
 dev.off()
 
 ###figure5c depmap and crispr data
+library(DMwR)
 magical = readRDS("magical.rds")
 depmap = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/depmap.pairwiseprop-newentrez.csv")
 depmap$gi = "SL"
