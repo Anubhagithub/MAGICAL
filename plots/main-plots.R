@@ -648,6 +648,8 @@ legend("bottomright",
 dev.off()
 
 Figure 6b,c GO terms
+library(ggplot2)
+library(reshape2)
 data3 = read.csv("/home/nikola/review_magical/go-analysis/GO-bp-input-for-plots.csv")
 a = data3[which(data3$gi == "SL"),]
 a.avggo = data.frame(a[,c(1)])
