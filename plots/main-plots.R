@@ -164,7 +164,7 @@ train_nb %>%
         legend.title = element_text(size=20),legend.text = element_text(size=15))
 dev.off()
 #triangle
-setwd("/home/nikola/biogrid-new-ppi/magical-imp-prop-new-entrez/figures/")
+#setwd("/home/nikola/biogrid-new-ppi/magical-imp-prop-new-entrez/figures/")
 tiff("fig3d.tiff",width = 600, height = 1000, res = 300)
 par(mar=c(0.5,2.5,0.5,0.5),cex.axis=1.4, font.axis=4,cex.lab=1.4, font.lab=4)
 train_nb$gi <- factor(train_nb$gi, levels = c("SL", "SV", "NOT"))
@@ -492,11 +492,11 @@ cnf_mat = table(slant.bal.test$gi, slant.bal.test$predict_gi)
 cnf_mat
 accuracy.slant.bal = sum(diag(cnf_mat)/sum(cnf_mat))
 ####magical unbalanced model building biogrid data
-sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
+sl = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sl-pairwise-new-netprop")
 sl$gi = "SL"
-sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
+sv = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sv-pairwise-new-netprop")
 sv$gi = "SV"
-not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
+not = read.csv("/home/user/MAGICAL/MAGICAL-CORE/not0.pairwiseprop.csv")
 not$gi = "NOT"
 traindata = unique(rbind(sl,sv,not))
 traindata$gi = as.factor(traindata$gi)
@@ -606,14 +606,14 @@ dev.off()
 ###figure5c depmap and crispr data
 library(DMwR)
 magical = readRDS("magical.rds")
-depmap = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/depmap.pairwiseprop-newentrez.csv")
+depmap = read.csv("/home/user/MAGICAL/Validation-DepMap/depmap.pairwiseprop-newentrez.csv")
 depmap$gi = "SL"
-svdr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/svdr.pairwiseprop-newentrez.csv")
-dusr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/dusr.pairwiseprop-newentrez.csv")
-ddsr = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/ddsr.pairwiseprop-newentrez.csv")
+svdr = read.csv("/home/user/MAGICAL/Validation-DepMap/svdr.pairwiseprop-newentrez.csv")
+dusr = read.csv("/home/user/MAGICAL/Validation-DepMap/dusr.pairwiseprop-newentrez.csv")
+ddsr = read.csv("/home/user/MAGICAL/Validation-DepMap/ddsr.pairwiseprop-newentrez.csv")
 svtot = data.frame(unique(rbind(svdr,dusr,ddsr)))
 svtot$gi = "SV"
-not2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not1.pairwiseprop.csv")
+not2 = read.csv("/home/user/MAGICAL/Validation-DepMap/not1.pairwiseprop.csv")
 not2$gi = "NOT"
 test.depmap = data.frame(unique(rbind(depmap,svtot, not2)))
 test.depmap = test.depmap[,-c(1,2)]
@@ -627,11 +627,11 @@ testing_set$gi = as.factor(testing_set$gi)
 result.depmap <- pROC::multiclass.roc(as.numeric(prediction), 
                                       as.numeric(testing_set$gi))
 #####crispr data
-crispr.sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sl-pairwise-new-entrez")
-crispr.sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/crispr-sv-pairwise-new-entrez")
+crispr.sl = read.csv("/home/user/MAGICAL/Validation-CRISPR/crispr-sl-pairwise-new-entrez")
+crispr.sv = read.csv("/home/user/MAGICAL/Validation-CRISPR/crispr-sv-pairwise-new-entrez")
 crispr.sl$gi =  "SL"
 crispr.sv$gi = "SV"
-not2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not1.pairwiseprop.csv")
+not2 = read.csv("/home/user/MAGICAL/Validation-CRISPR/not1.pairwiseprop.csv")
 not2$gi = "NOT"
 crispr.tot2 = unique(rbind(crispr.sl,crispr.sv,not2))
 crispr.tot2 = crispr.tot2[,-c(1,2)]
@@ -661,7 +661,7 @@ dev.off()
 Figure 6b,c GO terms
 library(ggplot2)
 library(reshape2)
-data3 = read.csv("/home/nikola/review_magical/go-analysis/GO-bp-input-for-plots.csv")
+data3 = read.csv("/home/user/MAGICAL/Data/new-GO-bp-input-for-plots.csv")
 a = data3[which(data3$gi == "SL"),]
 a.avggo = data.frame(a[,c(1)])
 colnames(a.avggo)[1] = "SL"
