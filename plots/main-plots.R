@@ -84,9 +84,13 @@ traindatabal$gene2 = as.integer(traindatabal$gene2)
 #write.csv(traindatabal, "/home/nikola/biogrid-new-ppi/magical-imp-prop-new-entrez/figures/magical-bal-data-with-geneids.csv", row.names = F, quote = F)
 table(traindatabal$gi)
 traindatabal = traindatabal[,-c(1,2)]
-index = sample(2, nrow(traindatabal), replace = TRUE, prob = c(0.70, 0.30))
-train = traindatabal[index == 1,]
-test = traindatabal[index == 2,]
+#index = sample(2, nrow(traindatabal), replace = TRUE, prob = c(0.70, 0.30))
+#train = traindatabal[index == 1,]
+#test = traindatabal[index == 2,]
+traindatabal$gi = as.factor(traindatabal$gi)
+sample <- sample.int(n = nrow(traindatabal), size = floor(.70*nrow(traindatabal)), replace = F)
+train <- traindatabal[sample, ]
+test  <- traindatabal[-sample, ]
 train.magical = train[,c(2,10,15,18,20,21)]
 test.magical = test[,c(2,10,15,18,20,21)]
 training = train.magical
@@ -233,9 +237,10 @@ traindatabal$gene2 = as.integer(traindatabal$gene2)
 #write.csv(traindatabal, "/home/nikola/biogrid-new-ppi/magical-imp-prop-new-entrez/figures/magical-bal-data-with-geneids.csv", row.names = F, quote = F)
 table(traindatabal$gi)
 traindatabal = traindatabal[,-c(1,2)]
-index = sample(2, nrow(traindatabal), replace = TRUE, prob = c(0.70, 0.30))
-train = traindatabal[index == 1,]
-test = traindatabal[index == 2,]
+traindatabal$gi = as.factor(traindatabal$gi)
+sample <- sample.int(n = nrow(traindatabal), size = floor(.70*nrow(traindatabal)), replace = F)
+train <- traindatabal[sample, ]
+test  <- traindatabal[-sample, ]
 train.magical = train[,c(2,10,15,18,20,21)]
 test.magical = test[,c(2,10,15,18,20,21)]
 training = train.magical
@@ -343,9 +348,9 @@ traindata$gi = as.factor(traindata$gi)
 traindatabal = DMwR::SMOTE(gi ~ ., traindata[,-c(1,2)], perc.under = 200)
 table(traindatabal$gi)
 #training = traindatabal
-index = sample(2, nrow(traindatabal), replace = TRUE, prob = c(0.70, 0.30))
-train = traindatabal[index == 1,]
-test = traindatabal[index == 2,]
+sample <- sample.int(n = nrow(traindatabal), size = floor(.70*nrow(traindatabal)), replace = F)
+train <- traindatabal[sample, ]
+test  <- traindatabal[-sample, ]
 training = train[,c(2,10,15,18,20,21)]
 testing = test[,c(2,10,15,18,20,21)]
 set.seed(123)
@@ -470,9 +475,12 @@ slantbal = read.csv("/home/user/MAGICAL/MAGICAL-SLant-comparison/slant-data.csv"
 table(slantbal$gi)
 traindatabalcp = slantbal
 table(traindatabalcp$gi)
-ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.70, 0.30))
-tr2 = traindatabalcp[ind == 1,]
-te2 = traindatabalcp[ind == 2,]
+sample <- sample.int(n = nrow(traindatabalcp), size = floor(.70*nrow(traindatabal)), replace = F)
+tr2 <- traindatabalcp[sample, ]
+te2  <- traindatabalcp[-sample, ]
+#ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.70, 0.30))
+#tr2 = traindatabalcp[ind == 1,]
+#te2 = traindatabalcp[ind == 2,]
 library(dplyr)
 slant.bal.train = tr2
 slant.bal.test = te2
@@ -512,9 +520,12 @@ testing.unbal.mag = testing
 traindatabal = traindata[,c(4,12,17,20,22,23)]
 traindatabal = DMwR::SMOTE(gi ~ ., traindatabal, perc.under = 200)
 table(traindatabal$gi)
-index = sample(2, nrow(traindatabal), replace = TRUE, prob = c(0.70, 0.30))
-train = traindatabal[index == 1,]
-test = traindatabal[index == 2,]
+sample <- sample.int(n = nrow(traindatabal), size = floor(.70*nrow(traindatabal)), replace = F)
+train <- traindatabal[sample, ]
+test  <- traindatabal[-sample, ]
+#index = sample(2, nrow(traindatabal), replace = TRUE, prob = c(0.70, 0.30))
+#train = traindatabal[index == 1,]
+#test = traindatabal[index == 2,]
 training = train
 testing = test
 magical.bio = randomForest(gi ~ . , data = training, importance = T)
