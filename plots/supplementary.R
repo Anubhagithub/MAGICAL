@@ -242,7 +242,7 @@ corrplot(M, type="upper", order="hclust",tl.cex = 0.6,insig = "blank", sig.level
 dev.off()
 
 ##figure S7
-data = read.csv("/home/user/data2.csv")
+data = read.csv("/home/user/MAGICAL/Data/data2.csv")
 data$Feature <- factor(data$Feature)
 data %>%
   mutate(Feature =ordered(Feature, levels = unique(Feature))) %>%
