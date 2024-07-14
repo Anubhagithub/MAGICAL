@@ -36,7 +36,7 @@ gfg <- data.frame(x = c(0.81,0.78,0.80,0.79,0.78,0.76,0.79,0.77,0.79,0.77,0.79,0
                   Metric = c("Accuracy","Precision", "Recall", "F1-score")) 
 tiff("S2.tiff",width = 1400, height = 1200, res = 300)
 par(mar=c(0.5,2.5,0.5,0.5),cex.axis=0.5, font.axis=1,cex.lab=1.3, font.lab=2)
-ggplot(gfg,aes(x = grp, y = x, fill = Metric)) + xlab("ML Models") + ylab("Values") +
+ggplot(gfg,aes(x = grp, y = x, fill = Metric)) + xlab("") + ylab("Values") +
   scale_fill_manual(values=c("#781163","#ae017e","#f768a1","#fbb4b9")) + theme_bw() +
   geom_bar(stat = "identity", position = "dodge") + theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust=1))+
@@ -189,19 +189,19 @@ dev.off()
 ##figure S6
 library(Hmisc)
 library(corrplot)
-sl = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sl-pairwise-new-netprop")
+sl = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sl-pairwise-new-netprop")
 sl$gi = "SL"
-sv = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/biogrid-sv-pairwise-new-netprop")
+sv = read.csv("/home/user/MAGICAL/MAGICAL-CORE/biogrid-sv-pairwise-new-netprop")
 sv$gi = "SV"
-sl2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/cgidb-sl-pairwise-new-netprop")
+sl2 = read.csv("/home/user/MAGICAL/MAGICAL-CORE/cgidb-sl-pairwise-new-netprop")
 sl2$gi = "SL"
-sv2 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/cgidb-sv-pairwise-new-netprop")
+sv2 = read.csv("/home/user/MAGICAL/MAGICAL-CORE/cgidb-sv-pairwise-new-netprop")
 sv2$gi = "SV"
-sl3 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/sldb-sl-pairwise-new-netprop")
+sl3 = read.csv("/home/user/MAGICAL/MAGICAL-CORE/sldb-sl-pairwise-new-netprop")
 sl3$gi = "SL"
-sv3 = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/sldb-sv-pairwise-new-netprop")
+sv3 = read.csv("/home/user/MAGICAL/MAGICAL-CORE/sldb-sv-pairwise-new-netprop")
 sv3$gi = "SV"
-not = read.csv("/home/nikola/biogrid-new-ppi/new-entrez/not0.pairwiseprop.csv")
+not = read.csv("/home/user/MAGICAL/MAGICAL-CORE/not0.pairwiseprop.csv")
 not$gi = "NOT"
 traindata = unique(rbind(sl,sl2,sl3,sv,sv2,sv3,not))
 traindata = na.omit(traindata)
@@ -242,7 +242,7 @@ corrplot(M, type="upper", order="hclust",tl.cex = 0.6,insig = "blank", sig.level
 dev.off()
 
 ##figure S7
-data = read.csv("/home/nikola/biogrid-new-ppi/binary/data2.csv")
+data = read.csv("/home/user/data2.csv")
 data$Feature <- factor(data$Feature)
 data %>%
   mutate(Feature =ordered(Feature, levels = unique(Feature))) %>%
