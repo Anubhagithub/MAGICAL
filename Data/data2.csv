@@ -1,0 +1,6 @@
+Feature,Accuracy
+None,80.966
+Average Betweenness,77.68
+Average Neighbor2,77.547
+Average Triangle,77.198
+Except Shortest-Path & Adhesion,62.418
