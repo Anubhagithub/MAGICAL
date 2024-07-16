@@ -458,7 +458,7 @@ traindata = na.omit(traindata)
 traindatabal = traindata
 table(traindatabal$gi)
 traindatabalcp = traindata[,c(1,2,6,21,22,23)]
-ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.70, 0.30))
+ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.80, 0.20))
 tr2 = traindatabalcp[ind == 1,]
 te2 = traindatabalcp[ind == 2,]
 slant.unbal.train = tr2
@@ -478,7 +478,7 @@ table(traindatabalcp$gi)
 sample <- sample.int(n = nrow(traindatabalcp), size = floor(.70*nrow(traindatabal)), replace = F)
 tr2 <- traindatabalcp[sample, ]
 te2  <- traindatabalcp[-sample, ]
-#ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.70, 0.30))
+#ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.80, 0.20))
 #tr2 = traindatabalcp[ind == 1,]
 #te2 = traindatabalcp[ind == 2,]
 library(dplyr)
