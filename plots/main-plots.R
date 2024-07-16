@@ -475,7 +475,7 @@ slantbal = read.csv("/home/user/MAGICAL/MAGICAL-SLant-comparison/slant-data.csv"
 table(slantbal$gi)
 traindatabalcp = slantbal
 table(traindatabalcp$gi)
-sample <- sample.int(n = nrow(traindatabalcp), size = floor(.70*nrow(traindatabal)), replace = F)
+sample <- sample.int(n = nrow(traindatabalcp), size = floor(.80*nrow(traindatabal)), replace = F)
 tr2 <- traindatabalcp[sample, ]
 te2  <- traindatabalcp[-sample, ]
 #ind = sample(2, nrow(traindatabalcp[,-c(1,2)]), replace = TRUE, prob = c(0.80, 0.20))
