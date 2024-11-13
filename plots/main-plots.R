@@ -75,7 +75,6 @@ sv3$gi = "SV"
 not = read.csv("/home/user/MAGICAL/MAGICAL-core/not0.pairwiseprop.csv")
 not$gi = "NOT"
 traindata = unique(rbind(sl,sl2,sl3,sv,sv2,sv3,not))
-traindata = unique(rbind(sl,sv,not))
 table(traindata$gi)
 traindata$gi = as.factor(traindata$gi)
 traindatabal = DMwR::SMOTE(gi ~ ., traindata, perc.under = 200)
